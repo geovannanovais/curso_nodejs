@@ -1,7 +1,9 @@
 import express from 'express'; //importar express
+import cors from "cors";
 
 const servidor = express();
 servidor.use(express.json()); // permite usar parametros de corpo na aplicação
+servidor.use(cors());
 
 servidor.get("/helloworld", (req, resp) =>{
     //código de endpoint

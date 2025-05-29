@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumindo API</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        .form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+
+        .form div {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        label {
+            width: 100px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline-color: #007bff;
+        }
+
+        .btn label {
+            width: 100px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #res {
+            font-size: 24px;
+            color: #007bff;
+            font-weight: bold;
+            margin-left: 100px;
+        }
+    </style>
+
+    <script>
+        async function somar() {
+            const n1 = document.getElementById("txtnum1").value;
+            const n2 = document.getElementById("txtnum2").value;
+
+            const url = `http://localhost:5001/calculadora/soma/${n1}/${n2}`;
+            console.log("Fazendo requisição para:", url);
+
+            try {
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.status}`);
+                }
+
+                const dados = await response.json();
+                console.log("Dados recebidos:", dados);
+
+                document.getElementById("res").innerText = String(dados.soma);
+            } catch (error) {
+                console.error("Erro ao buscar API:", error);
+                document.getElementById("res").innerText = "Erro na API";
+            }
+        }
+    </script>
+
+</head>
+<body>
+    
+    <h1>Consumindo API</h1>
+    <hr />
+
+    <h2>Calculadora</h2>
+    <div class="form">
+        <div>
+            <label>Número 01:</label>
+            <input type="text" id="txtnum1">
+        </div>
+        <div>
+            <label>Número 02:</label>
+            <input type="text" id="txtnum2">
+        </div>
+        <div class="btn">
+            <label>&nbsp;</label>
+            <button onclick="somar()">Somar</button>
+        </div>
+        <div id="res">
+            0
+        </div>
+    </div>
+
+</body>
+</html>
